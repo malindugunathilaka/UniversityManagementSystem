@@ -1,17 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace UniversityManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // Global exception handler
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                Exception ex = (Exception)args.ExceptionObject;
+                MessageBox.Show($"An unexpected error occurred:\n{ex.Message}",
+                              "System Error",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+            };
+
+            this.DispatcherUnhandledException += (sender, args) =>
+            {
+                MessageBox.Show($"An error occurred:\n{args.Exception.Message}",
+                              "Application Error",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                args.Handled = true; // Prevent application crash
+            };
+        }
     }
 }
