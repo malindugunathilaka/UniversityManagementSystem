@@ -13,7 +13,7 @@ namespace UniversityManagementSystem.DAL
         public User GetUserByUsername(string username)
         {
             User user = null;
-            string query = "SELECT UserID, Username, PasswordHash, Role FROM Users WHERE Username = @Username";
+            string query = "SELECT UserID, Username, Password, Role FROM Users WHERE Username = @Username";
 
             try
             {
@@ -31,7 +31,7 @@ namespace UniversityManagementSystem.DAL
                                 user = new User();
                                 user.UserID = (int)reader["UserID"];
                                 user.Username = reader["Username"].ToString();
-                                user.PasswordHash = reader["PasswordHash"].ToString();
+                                user.Password = reader["Password"].ToString();
                                 user.Role = reader["Role"].ToString();
                             }
                         }
@@ -72,7 +72,7 @@ namespace UniversityManagementSystem.DAL
 
         public bool AddUser(User user)
         {
-            string query = "INSERT INTO Users (Username, PasswordHash, Role) VALUES (@Username, @PasswordHash, @Role)";
+            string query = "INSERT INTO Users (Username, Password, Role) VALUES (@Username, @Password, @Role)";
 
             try
             {
@@ -82,7 +82,7 @@ namespace UniversityManagementSystem.DAL
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Username", user.Username);
-                        cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                        cmd.Parameters.AddWithValue("@Password", user.Password);
                         cmd.Parameters.AddWithValue("@Role", user.Role);
 
                         int rowsAffected = cmd.ExecuteNonQuery();

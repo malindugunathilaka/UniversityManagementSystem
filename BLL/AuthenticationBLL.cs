@@ -11,19 +11,17 @@ namespace UniversityManagementSystem.BLL
     public class AuthenticationBLL
     {
         private readonly UserDAL _userDAL;
-        private readonly SecurityBLL _securityBLL;
 
         public AuthenticationBLL()
         {
             _userDAL = new UserDAL();
-            _securityBLL = new SecurityBLL();
         }
 
         public User AuthenticateUser(string username, string password)
         {
             User user = _userDAL.GetUserByUsername(username);
 
-            if (user != null && _securityBLL.VerifyPassword(password, user.PasswordHash))
+            if (user != null && password == user.Password)
             {
                 return user;
             }

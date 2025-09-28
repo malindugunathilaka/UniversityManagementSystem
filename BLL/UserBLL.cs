@@ -7,7 +7,6 @@ namespace UniversityManagementSystem.BLL
     public class UserBLL
     {
         private readonly UserDAL _userDAL = new UserDAL();
-        private readonly SecurityBLL _securityBLL = new SecurityBLL();
 
         public DataTable GetAllUsers()
         {
@@ -29,12 +28,12 @@ namespace UniversityManagementSystem.BLL
             }
 
             // Hash the password
-            string passwordHash = _securityBLL.HashPassword(password);
+            string plainPassword = password;
 
             User newUser = new User
             {
                 Username = username,
-                PasswordHash = passwordHash,
+                Password = plainPassword,
                 Role = role
             };
 
